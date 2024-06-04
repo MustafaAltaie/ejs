@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Super Heroes</title>
+        <link rel="stylesheet" href="/style/products.css">
+    </head>
+
+    <body>
+        <div id="product">
+            <div>
+                <img src="<%= productImage %>" alt="">
+            </div>
+            <div>
+                <h1 style="text-align: center;"><%= productName %></h1>
+                <div style="display: flex; justify-content: space-between; padding-right: 50px; align-items: center;">
+                    <h3><%= productCategory %></h3>
+                    <p><%= productPrice %>,00</p>
+                </div>
+                <p><%= productDesctiption %></p>
+                <button>Add to cart</button>
+            </div>
+            <h6 onclick="deleteItem('<%= productId %>')">Delete item</h6>
+        </div>
+
+        <script src="/script/productDetails.js"></script>
+    </body>
+</html>
