@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Products</title>
+        <link rel="stylesheet" href="/style/home.css">
+        <script src="https://kit.fontawesome.com/f80359c2af.js" crossorigin="anonymous"></script>
+        <style>
+            *{
+                padding: 0;
+                margin: 0;
+                font-family: sans-serif;
+                user-select: none;
+            }
+            .logo{
+                position: fixed;
+                width: 100px;
+                height: 100px;
+                top: 10px;
+                right: 10px;
+                cursor: pointer;
+            }
+            .blogWrapper{
+                display: flex;
+                flex-direction: column;
+                padding: 50px;
+                background: #ddd;
+            }
+            .blog{
+                display: flex;
+                align-items: center;
+                width: 600px;
+                margin: 0 auto;
+                gap: 20px;
+                padding: 25px;
+                background: #fff;
+                box-shadow: 0 0 5px #00000077;
+                transition: 0.4s;
+            }
+            .blog > div{
+                position: relative;
+                width: 50%;
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+            .blog > div > img{
+                width: 100%;
+                height: 200px;
+                object-fit: cover;
+            }
+            div.order1 {
+                order: 1;
+            }
+            div.order2 {
+                order: 2;
+            }
+            p{
+                color: #06f;
+            }
+            h3{
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 20px;
+                height: 20px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+                font-weight: normal;
+                color: #da8906;
+            }
+            h2{
+                color: #aaa;
+            }
+            h2.isLiked{
+                color: #f00;
+            }
+            h5{
+                font-weight: normal;
+                text-indent: 15px;
+            }
+            h6{
+                color: #da8906;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="blogWrapper">
+            <div onclick="location.href = '/'">
+                <img class="logo" src="/logo.png" alt="">
+            </div>
+            <% blogs.forEach((blog, index) => { %>
+                <div class='blog'>
+                    <div class="<%= index % 2 === 0 ? 'order1' : 'order2' %>">
+                        <img src="<%= blog.image %>" alt="img">
+                    </div>
+                    <div class="<%= index % 2 === 0 ? 'order2' : 'order1' %>">
+                        <h3 class="<%= index % 2 === 0 ? 'order1' : 'order2' %>" onclick="deleteItem('<%= blog.id %>')"><i class="fas fa-trash-alt"></i></h3>
+                        <p>By: <%= blog.author %></p>
+                        <h5><%= blog.blog %></h5>
+                        <h6><%= blog.date %></h6>
+                        <h2 class="<%= blog.isLiked && 'isLiked' %>"><i class="fas fa-heart"></i></h2>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+
+        <script>
+            function deleteItem(blogId) {
+                fetch(`/${blogId}`, {
+                    method: 'DELETE'
+                })
+                .then(response => {
+                    window.location.href = response.url;
+                })
+                .catch(error => console.error('Error:', error));
+            }
+
+            setTimeout(() => {
+                const blog = document.getElementsByClassName('blog');
+                for(let i = 0; i < blog.length; i++){
+                    if(i % 2 === 0)
+                        blog[i].style.transform = 'translateX(10px) rotate(-2deg)';
+                    else
+                        blog[i].style.transform = 'translateX(-10px) rotate(2deg)';
+                }
+            }, 200);
+        </script>
+    </body>
+</html>

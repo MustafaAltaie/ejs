@@ -3,32 +3,66 @@
     <head>
         <title>Products</title>
         <link rel="stylesheet" href="/style/home.css">
+        <style>
+            *{
+                font-family: sans-serif;
+            }
+            .logo{
+                position: fixed;
+                width: 100px;
+                height: 100px;
+                top: 10px;
+                right: 10px;
+                cursor: pointer;
+            }
+            form{
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 500px;
+                padding: 40px;
+                background: #eee;
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+                border-radius: 20px;
+            }
+            input, textarea, button{
+                border: solid 1px #6795ec;
+                outline: none;
+                padding: 10px;
+                resize: none;
+                border-radius: 10px;
+            }
+            textarea{
+                height: 100px;
+            }
+            button{
+                background: #06f;
+                border: none;
+                color: #fff;
+                cursor: pointer;
+            }
+            button:hover{
+                background: #3083ff;
+            }
+            h1{
+                text-align: center;
+                padding: 50px;
+            }
+        </style>
     </head>
 
     <body>
-        <a href="/">Home</a>
-        <div id="productList">
-            <% productList.forEach(product => { %>
-                <div class="product" onclick="location.href = '/productDetails/<%= product.id %>'">
-                    <img src="<%= product.image %>">
-                    <h1><%= product.name %></h1>
-                    <p><%= product.category %></p>
-                    <p><%= product.price %>,00</p>
-                    <p><%= product.description %></p>
-                </div>
-            <% }) %>
-            <div id="addProduct" style="display: flex; justify-content: center; align-items: center;" onclick="newProductForm.style.display = 'flex'">
-                <h1>+</h1>
-            </div>
+        <div onclick="location.href = '/'">
+            <img class="logo" src="/logo.png" alt="">
         </div>
-
-        <form id="newProductForm" action="/addProduct" method="post">
-            <h3 onclick="newProductForm.style.display = 'none'">X</h3>
-            <input type="text" name="name" placeholder="name">
-            <input type="text" name="category" placeholder="category">
-            <input type="number" name="price" placeholder="price">
-            <input type="text" name="image" placeholder="image">
-            <textarea type="text" name="description" placeholder="description"></textarea>
+        <h1>Add New Blog</h1>
+        <form action="/" method="post">
+            <textarea type="text" name="blog" placeholder="Blog"></textarea>
+            <input type="text" name="image" placeholder="Image url">
+            <input type="text" name="author" placeholder="Author">
             <button type="submit">Add</button>
         </form>
     </body>
