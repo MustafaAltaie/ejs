@@ -30,7 +30,28 @@ const blogSchema = new mongoose.Schema({
 
 const Blog = mongoose.model('blogs', blogSchema);
 
-app.get('/rowdata', async (req, res) => {
+app.get("/", (request, response) => {
+  response.status(200).sendFile('./public/pages/home.html', { root: __dirname });
+});
+
+app.get("/start", (request, response) => {
+  response.status(200).sendFile('./public/pages/home.html', { root: __dirname });
+});
+
+app.get("/api/blogs", (request, response) => {
+  response.status(200).sendFile('./public/pages/home.html', { root: __dirname });
+});
+
+app.get('/api/blogs/addBlog', (request, response) => {
+  response.status(200).render("home");
+});
+
+app.get('/api/blogs/myblogs', async (request, response) => {
+  const blogs = await Blog.find();
+  response.status(200).render("blogs", { blogs: blogs });
+});
+
+app.get('/api/blogs/rowdata', async (req, res) => {
   try {
     const blogs = await Blog.find();
     res.status(200).json(blogs);
@@ -39,25 +60,12 @@ app.get('/rowdata', async (req, res) => {
   }
 });
 
-app.get("/", (request, response) => {
-  response.status(200).sendFile('./public/pages/home.html', { root: __dirname });
-});
-
-app.get('/blogs', (request, response) => {
-  response.status(200).render("home", { productList: 'products' });
-});
-
-app.get('/myblogs', async (request, response) => {
-  const blogs = await Blog.find();
-  response.status(200).render("blogs", { blogs: blogs });
-});
-
-app.delete('/:id', async (req, res) => {
+app.delete('/api/blogs/:id', async (req, res) => {
   await Blog.findByIdAndDelete(req.params.id);
-  res.redirect('/');
+  res.redirect('/api/blogs');
 });
 
-app.post('/', async (req, res) => {
+app.post('/api/blogs', async (req, res) => {
   try {
     const newBlog = new Blog({
         blog: req.body.blog,
@@ -66,13 +74,13 @@ app.post('/', async (req, res) => {
         author: req.body.author
     });
     const result = await newBlog.save();
-    res.redirect('/myblogs');
+    res.redirect('/api/blogs/myblogs');
   } catch (error) {
     res.status(500).send(error);
   }
 });
 
-app.patch('/:id', async (req, res) => {
+app.patch('/api/blogs/:id', async (req, res) => {
   const id = req.params.id;
   await Blog.findByIdAndUpdate(id, req.body, { new: true, runValidators: true });
   res.end();

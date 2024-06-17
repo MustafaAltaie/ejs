@@ -88,7 +88,7 @@
 
     <body>
         <div class="blogWrapper">
-            <div onclick="location.href = '/'">
+            <div onclick="location.href = '/api/blogs'">
                 <img class="logo" src="/logo.png" alt="">
             </div>
             <% blogs.forEach((blog, index) => { %>
@@ -109,7 +109,7 @@
 
         <script>
             function deleteItem(blogId) {
-                fetch(`/${blogId}`, {
+                fetch(`/api/blogs/${blogId}`, {
                     method: 'DELETE'
                 })
                 .then(response => {
